@@ -1,7 +1,7 @@
 import re
 from dataclasses import dataclass
 
-from src.domain.user.value_objects.consts import EMAIL_REGEX
+from src.domain.user.value_objects.constants import EMAIL_REGEX
 from src.domain.user.exceptions import IncorrectUserEmail
 from src.domain.common.value_objects.base import ValueObject
 

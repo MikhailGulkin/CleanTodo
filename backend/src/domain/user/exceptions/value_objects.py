@@ -8,7 +8,7 @@ class IncorrectUserEmail(ValueError, DomainException):
 
     @property
     def message(self) -> str:
-        return f'Message: {self.user_email} not valid'
+        return f'{self.user_email} not valid'
 
 
 @dataclass(eq=False)

@@ -1,7 +1,7 @@
 import re
 from dataclasses import dataclass
 
-from src.domain.user.value_objects.consts import PASSWORD_REGEX
+from src.domain.user.value_objects.constants import PASSWORD_REGEX
 from src.domain.user.exceptions import IncorrectPassword
 from src.domain.common.value_objects.base import ValueObject
 
