@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "dddtodo"
+version = "0.1.0"
+description = ""
+authors = ["Bol4onok <95026332+MihailGulkin@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+asyncpg = "^0.27.0"
+pytest = "^7.3.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+markers = [
+    "domain: test domain logic",
+]
+pythonpath = "src"
+addopts = [
+    "--import-mode=importlib",
+]
