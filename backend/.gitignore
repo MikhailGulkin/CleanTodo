@@ -7,3 +7,4 @@ user_service
 *.jpg
 .pytest_cache
 .test.env
+hexagonal-architecture-django
