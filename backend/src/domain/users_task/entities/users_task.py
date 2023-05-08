@@ -1,17 +1,12 @@
 import dataclasses
-import datetime
 from dataclasses import field
 
-from src.domain.common.constants import Empty
 from src.domain.common.entities import Entity
 from src.domain.task.entities.task import Task
 from src.domain.task.value_objects.task_id import TaskId
 
 from src.domain.user.value_objects import (
-    UserEmail,
-    UserName,
     UserId,
-    UserPassword
 )
 from src.domain.users_task.exceptions import AlreadyCreateTask, AlreadyTitleExist
 

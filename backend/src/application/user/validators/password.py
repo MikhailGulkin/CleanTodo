@@ -1,7 +1,7 @@
 import re
 from dataclasses import dataclass
 
-from application.common.validators import ValidatorError
+from src.application.common.validators import ValidatorError
 
 MIN_PASSWORD_LENGTH = 8
 MAX_PASSWORD_LENGTH = 32
@@ -22,7 +22,7 @@ class WrongPasswordFormat(WrongPasswordValue):
 
 
 def validate_password(password: str) -> None:
-    if MIN_PASSWORD_LENGTH < len(password) < MAX_PASSWORD_LENGTH:
+    if not(MIN_PASSWORD_LENGTH < len(password) < MAX_PASSWORD_LENGTH):
         raise ToShortPassword(password)
 
     if not PASSWORD_PATTERN.match(password):

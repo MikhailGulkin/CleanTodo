@@ -1,7 +1,7 @@
 import re
 from dataclasses import dataclass
 
-from application.common.validators import ValidatorError
+from src.application.common.validators import ValidatorError
 
 MIN_USERNAME_LENGTH = 2
 MAX_USERNAME_LENGTH = 32
@@ -22,7 +22,7 @@ class WrongUsernameFormat(WrongUsernameValue):
 
 
 def validate_username(username: str) -> None:
-    if MIN_USERNAME_LENGTH < len(username) < MAX_USERNAME_LENGTH:
+    if not(MIN_USERNAME_LENGTH < len(username) < MAX_USERNAME_LENGTH):
         raise ToShortUsername(username)
 
     if not USERNAME_PATTERN.match(username):

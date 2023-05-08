@@ -8,3 +8,5 @@ user_service
 .pytest_cache
 .test.env
 hexagonal-architecture-django
+envLinux
+requirements.txt

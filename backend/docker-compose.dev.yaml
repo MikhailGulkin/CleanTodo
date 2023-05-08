@@ -1,0 +1,22 @@
+services:
+  postgres:
+    container_name: DDDTodoDevPostgres
+    image: postgres:latest
+    restart: on-failure
+    volumes:
+      - /e/project_volumes/ddd-todo/dev/postgres:/var/lib/postgresql/data
+    ports:
+      - 5431:5432
+    env_file:
+      - .dev.env
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: DDDTodoDevRabbit
+    hostname: DevRabbitmq
+    volumes:
+      - /e/project_volumes/ddd-todo/dev/rabbit_mq:/var/lib/rabbitmq/mnesia/
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"
+    env_file:
+      .dev.env

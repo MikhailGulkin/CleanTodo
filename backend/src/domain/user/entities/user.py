@@ -1,8 +1,10 @@
 import dataclasses
 import datetime
+from typing import Literal
 
 from src.domain.common.constants import Empty
-from src.domain.common.entities import Entity
+from src.domain.common.entities import AggregateRoot
+from src.domain.user.events import UserCreated
 
 from src.domain.user.value_objects import (
     UserEmail,
@@ -13,19 +15,24 @@ from src.domain.user.value_objects import (
 
 
 @dataclasses.dataclass
-class User(Entity):
+class User(AggregateRoot):
     id: UserId
     username: UserName
     password: UserPassword
     email: UserEmail
-    deleted: bool = dataclasses.field(default=False, kw_only=True)
-    created_at: datetime.datetime = dataclasses.field(
-        default_factory=datetime.datetime.now
-    )
+    deleted: Literal[False] = dataclasses.field(default=False, kw_only=True)
 
     @classmethod
     def create(cls, user_id: UserId, username: UserName, password: UserPassword, email: UserEmail) -> 'User':
-        return User(id=user_id, username=username, password=password, email=email)
+        user = User(id=user_id, username=username, password=password, email=email)
+        user.record_event(
+            UserCreated(
+                id=user_id.to_uuid,
+                username=str(username),
+                password=str(password),
+                email=str(email)
+            ))
+        return user
 
     def update(
             self,
