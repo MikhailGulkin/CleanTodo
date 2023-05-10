@@ -17,9 +17,9 @@ aio-pika = "^9.0.5"
 di = "^0.75.3"
 orjson = "^3.8.12"
 tomli = "^2.0.1"
-fastapi = "^0.95.1"
 uvicorn = "^0.22.0"
 alembic = "^1.10.4"
+blacksheep = "^1.2.14"
 
 
 [build-system]
