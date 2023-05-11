@@ -1,7 +1,7 @@
 from blacksheep.server.controllers import APIController
 
 
-class BaseController(APIController):
+class BaseAPIController(APIController):
 
     @classmethod
     def version(cls) -> str:
