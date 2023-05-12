@@ -1,9 +1,3 @@
-from .base import (
-    AppException,
-    DomainException
-)
+from .base import AppException, DomainException
 
-__all__ = (
-    'AppException',
-    'DomainException'
-)
+__all__ = ("AppException", "DomainException")

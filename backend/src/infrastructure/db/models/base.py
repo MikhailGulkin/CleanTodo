@@ -7,7 +7,8 @@ convention = {
     "ix": "ix_%(column_0_label)s",  # INDEX
     "uq": "uq_%(table_name)s_%(column_0_N_name)s",  # UNIQUE
     "ck": "ck_%(table_name)s_%(constraint_name)s",  # CHECK
-    "fk": "fk_%(table_name)s_%(column_0_N_name)s_%(referred_table_name)s",  # FOREIGN KEY
+    # FOREIGN KEY
+    "fk": "fk_%(table_name)s_%(column_0_N_name)s_%(referred_table_name)s",
     "pk": "pk_%(table_name)s",  # PRIMARY KEY
 }
 
@@ -23,6 +24,7 @@ class TimedBaseModel(BaseModel):
     """
     An abstract base model that adds created_at and updated_at timestamp fields to the model
     """
+
     __abstract__ = True
 
     created_at: Mapped[datetime.datetime] = mapped_column(nullable=False, server_default=sql.func.now())

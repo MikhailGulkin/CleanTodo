@@ -12,8 +12,7 @@ class AlreadyCreateTask(RuntimeError, DomainException):
 
     @property
     def message(self) -> str:
-        return f"User \"{self.user_id}\" has already create " \
-               f"task \"{self.task_id}"
+        return f'User "{self.user_id}" has already create ' f'task "{self.task_id}'
 
 
 @dataclass
@@ -24,5 +23,4 @@ class AlreadyTitleExist(RuntimeError, DomainException):
 
     @property
     def message(self) -> str:
-        return f"Task with title: {self.title} already exist, and created:" \
-               f"User: {self.user_id}"
+        return f"Task with title: {self.title} already exist, and created:" f"User: {self.user_id}"

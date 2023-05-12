@@ -1,4 +1,5 @@
-from typing import Any, Callable, Generic, TypeVar
+from collections.abc import Callable
+from typing import Any, Generic, TypeVar
 
 from adaptix import Loader, Mediator, Request
 from adaptix._internal.provider import LoaderProvider, LoaderRequest
@@ -11,9 +12,10 @@ Unknown = object
 
 class Converter(LoaderProvider, Generic[FromModel, ToModel]):
     def __init__(
-            self, from_cls: type[FromModel],
-            to_cls: type[ToModel],
-            loader: Callable[[FromModel], ToModel],
+        self,
+        from_cls: type[FromModel],
+        to_cls: type[ToModel],
+        loader: Callable[[FromModel], ToModel],
     ) -> None:
         self._from_cls = from_cls
         self._to_cls = to_cls

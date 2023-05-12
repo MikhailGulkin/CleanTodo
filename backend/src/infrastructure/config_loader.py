@@ -1,9 +1,8 @@
 import os
 from pathlib import Path
-
-import tomli
 from typing import TypeVar
 
+import tomli
 from adaptix import Retort
 
 T = TypeVar("T")

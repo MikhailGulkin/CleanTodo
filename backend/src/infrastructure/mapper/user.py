@@ -1,9 +1,9 @@
 from typing import cast
 
 from adaptix.load_error import ValueLoadError
-
 from src.application.user import dto
-from src.domain.user import entities, value_objects as vo
+from src.domain.user import entities
+from src.domain.user import value_objects as vo
 from src.infrastructure.db import models
 
 

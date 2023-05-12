@@ -24,8 +24,9 @@ def integration_event(
     routing_key: str | None = None,
 ) -> Callable[[EventType], EventType]:
     def _integration_event(cls: EventType) -> EventType:
-        cls.event_type = event_type
+        cls.event_type = event_type  # type: ignore[attr-defined]
         cls._exchange_name = exchange
         cls._routing_key = routing_key if routing_key is not None else event_type
         return cls
+
     return _integration_event

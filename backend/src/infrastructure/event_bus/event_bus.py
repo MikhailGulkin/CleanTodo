@@ -1,5 +1,4 @@
 import orjson
-
 from src.infrastructure.message_broker import Message, MessageBroker
 
 from .events.base import IntegrationEvent
@@ -21,4 +20,3 @@ class EventBusImpl:
             data=orjson.dumps(event, default=additionally_serialize).decode(),
             message_type="event",
         )
-

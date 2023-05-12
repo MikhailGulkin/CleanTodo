@@ -1,9 +1,11 @@
-from typing import AsyncGenerator
+from collections.abc import AsyncGenerator
 
 import aio_pika
 from aio_pika.pool import Pool
-
-from src.infrastructure.message_broker.factories import ChannelFactory, ConnectionFactory
+from src.infrastructure.message_broker.factories import (
+    ChannelFactory,
+    ConnectionFactory,
+)
 
 from .config import EventBusConfig
 

@@ -1,6 +1,5 @@
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from src.application.common.exceptions import CommitError, RollbackError
 from src.application.common.interfaces.uow import UnitOfWork
 

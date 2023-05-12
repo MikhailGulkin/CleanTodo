@@ -22,7 +22,7 @@ class WrongUsernameFormat(WrongUsernameValue):
 
 
 def validate_username(username: str) -> None:
-    if not(MIN_USERNAME_LENGTH < len(username) < MAX_USERNAME_LENGTH):
+    if not (MIN_USERNAME_LENGTH < len(username) < MAX_USERNAME_LENGTH):
         raise ToShortUsername(username)
 
     if not USERNAME_PATTERN.match(username):

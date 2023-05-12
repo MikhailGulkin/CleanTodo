@@ -1,23 +1,20 @@
 from typing import Any, TypeVar
 
 from adaptix import Retort
-
 from src import application, domain
 from src.application.common.exceptions import MappingError
 from src.application.common.interfaces.mapper import Mapper
-from src.infrastructure.db import models
 from src.infrastructure import event_bus
+from src.infrastructure.db import models
 
-from .events import (
-    convert_user_created_to_integration,
-)
+from .converter import Converter
+from .events import convert_user_created_to_integration
 from .user import (
     convert_db_model_to_user_dto,
     convert_db_model_to_user_entity,
     convert_user_entity_to_db_model,
     convert_user_entity_to_dto,
 )
-from .converter import Converter
 
 T = TypeVar("T")
 
@@ -34,11 +31,34 @@ class MapperImpl(Mapper):
 
 
 def build_mapper() -> MapperImpl:
-    return MapperImpl(Retort(recipe=(
-        Converter(domain.user.entities.User, application.user.dto.User, convert_user_entity_to_dto),
-        Converter(domain.user.entities.User, models.User, convert_user_entity_to_db_model),
-        Converter(models.User, domain.user.entities.User, convert_db_model_to_user_entity),
-        Converter(models.User, application.user.dto.User, convert_db_model_to_user_dto),
-
-        Converter(domain.user.events.UserCreated, event_bus.events.UserCreated, convert_user_created_to_integration),
-    )))
+    return MapperImpl(
+        Retort(
+            recipe=(
+                Converter(
+                    domain.user.entities.User,
+                    application.user.dto.User,
+                    convert_user_entity_to_dto,
+                ),
+                Converter(
+                    domain.user.entities.User,
+                    models.User,
+                    convert_user_entity_to_db_model,
+                ),
+                Converter(
+                    models.User,
+                    domain.user.entities.User,
+                    convert_db_model_to_user_entity,
+                ),
+                Converter(
+                    models.User,
+                    application.user.dto.User,
+                    convert_db_model_to_user_dto,
+                ),
+                Converter(
+                    domain.user.events.UserCreated,
+                    event_bus.events.UserCreated,
+                    convert_user_created_to_integration,
+                ),
+            )
+        )
+    )

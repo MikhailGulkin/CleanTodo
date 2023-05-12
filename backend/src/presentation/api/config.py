@@ -1,12 +1,10 @@
 from dataclasses import dataclass, field
-from typing import Union
 
 from di import bind_by_type
 from di.dependent import Dependent
 from didiator.interface.utils.di_builder import DiBuilder
-
-from src.infrastructure.di import DiScope
 from src.infrastructure.db import DBConfig
+from src.infrastructure.di import DiScope
 
 
 @dataclass

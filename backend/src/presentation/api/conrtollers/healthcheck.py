@@ -1,10 +1,9 @@
 from dataclasses import dataclass
 
 from blacksheep.server.controllers import get
-
+from src.presentation.api.conrtollers.base_contoller import BaseAPIController
 from src.presentation.api.conrtollers.docs import get_healthcheck_docs
 from src.presentation.api.docs import docs
-from src.presentation.api.conrtollers.base_contoller import BaseAPIController
 
 
 @dataclass(frozen=True)

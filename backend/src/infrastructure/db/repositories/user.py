@@ -3,10 +3,15 @@ from uuid import UUID
 
 from sqlalchemy import func, select
 from sqlalchemy.exc import DBAPIError, IntegrityError
-
 from src.application.common.exceptions import RepoError
 from src.application.user import dto
-from src.application.user.exceptions import UserIdAlreadyExists, UserIdNotExist, UserNameAlreadyExists, UserNameNotExist
+from src.application.user.exceptions import (
+    UserEmailAlreadyExists,
+    UserIdAlreadyExists,
+    UserIdNotExist,
+    UserNameAlreadyExists,
+    UserNameNotExist,
+)
 from src.application.user.interfaces.persistence import UserReader, UserRepo
 from src.domain.common.constants import Empty
 from src.domain.user import entities
@@ -17,11 +22,13 @@ from src.infrastructure.db.repositories.base import SQLAlchemyRepo
 
 
 class UserReaderImpl(SQLAlchemyRepo, UserReader):
-    @exception_mapper
+    # @exception_mapper
     async def get_user_by_id(self, user_id: UUID) -> dto.UserDTOs:
-        user = await self.session.scalar(select(User).where(
-            User.id == user_id,
-        ))
+        user = await self.session.scalar(
+            select(User).where(
+                User.id == user_id,
+            )
+        )
         if user is None:
             raise UserIdNotExist(user_id)
 
@@ -29,9 +36,11 @@ class UserReaderImpl(SQLAlchemyRepo, UserReader):
 
     @exception_mapper
     async def get_user_by_username(self, username: str) -> dto.User:
-        user = await self.session.scalar(select(User).where(
-            User.username == username,
-        ))
+        user = await self.session.scalar(
+            select(User).where(
+                User.username == username,
+            )
+        )
         if user is None:
             raise UserNameNotExist(username)
 
@@ -50,9 +59,13 @@ class UserReaderImpl(SQLAlchemyRepo, UserReader):
 class UserRepoImpl(SQLAlchemyRepo, UserRepo):
     @exception_mapper
     async def acquire_user_by_id(self, user_id: UserId) -> entities.User:
-        user = await self.session.scalar(select(User).where(
-            User.id == user_id.to_uuid,
-        ).with_for_update())
+        user = await self.session.scalar(
+            select(User)
+            .where(
+                User.id == user_id.to_uuid,
+            )
+            .with_for_update()
+        )
 
         if user is None:
             raise UserIdNotExist(user_id.to_uuid)
@@ -74,5 +87,7 @@ class UserRepoImpl(SQLAlchemyRepo, UserRepo):
                 raise UserIdAlreadyExists(user.id.to_uuid) from err
             case "uq_users_username":
                 raise UserNameAlreadyExists(str(user.username)) from err
+            case "uq_users_email":
+                raise UserEmailAlreadyExists(str(user.email)) from err
             case _:
                 raise RepoError from err

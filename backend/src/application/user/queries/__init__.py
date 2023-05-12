@@ -3,7 +3,7 @@ from .get_user_by_username import GetUserByUsername, GetUserByUsernameHandler
 
 __all__ = (
     "GetUserById",
-    'GetUserByIdHandler',
-    'GetUserByUsername',
-    'GetUserByUsernameHandler'
+    "GetUserByIdHandler",
+    "GetUserByUsername",
+    "GetUserByUsernameHandler",
 )

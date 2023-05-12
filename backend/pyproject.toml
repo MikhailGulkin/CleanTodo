@@ -22,6 +22,7 @@ alembic = "^1.10.4"
 blacksheep = "^1.2.14"
 pydantic = "^1.10.7"
 aiofiles = "^23.1.0"
+pre-commit = "^3.3.1"
 
 
 [build-system]

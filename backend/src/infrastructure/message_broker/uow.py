@@ -1,6 +1,5 @@
 import aio_pika
 from aiormq import AMQPError
-
 from src.application.common.exceptions import CommitError, RollbackError
 from src.application.common.interfaces.uow import UnitOfWork
 

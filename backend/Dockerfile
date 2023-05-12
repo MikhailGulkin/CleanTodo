@@ -20,4 +20,3 @@ RUN poetry install --with dev
 
 
 CMD python3 -m pytest -v
-

@@ -23,6 +23,11 @@ class UserNameAlreadyExists(ApplicationException):
 
 
 @dataclass(eq=False)
+class UserEmailAlreadyExists(ApplicationException):
+    email: str
+
+
+@dataclass(eq=False)
 class UserIdNotExist(ApplicationException):
     user_id: UUID
 
