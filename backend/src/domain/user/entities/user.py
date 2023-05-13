@@ -1,6 +1,6 @@
 import dataclasses
 from dataclasses import dataclass
-from typing import Literal
+from typing import Literal, Self
 
 from src.domain.common.constants import Empty
 from src.domain.common.entities import AggregateRoot
@@ -23,7 +23,7 @@ class User(AggregateRoot):
         username: UserName,
         password: UserPassword,
         email: UserEmail,
-    ) -> "User":
+    ) -> Self:  # type: ignore[valid-type]
         user = User(id=user_id, username=username, password=password, email=email)
         user.record_event(
             UserCreated(

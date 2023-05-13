@@ -1,2 +1,2 @@
 up-server:
-	python3 -m src.__main__
+	python3.11 -m src.__main__
