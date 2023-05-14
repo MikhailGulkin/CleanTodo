@@ -5,6 +5,7 @@ from di.dependent import Dependent
 from didiator.interface.utils.di_builder import DiBuilder
 from src.infrastructure.db import DBConfig
 from src.infrastructure.di import DiScope
+from src.infrastructure.message_broker.config import EventBusConfig
 
 
 @dataclass
@@ -18,7 +19,7 @@ class APIConfig:
 class Config:
     db: DBConfig = field(default_factory=DBConfig)
     api: APIConfig = field(default_factory=APIConfig)
-    # event_bus: EventBusConfig = field(default_factory=EventBusConfig)
+    event_bus: EventBusConfig = field(default_factory=EventBusConfig)
 
 
 def setup_di_builder_config(di_builder: DiBuilder, config: Config) -> None:

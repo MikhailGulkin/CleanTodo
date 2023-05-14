@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from uuid import UUID
 
-# from didiator import EventMediator
+from didiator import EventMediator
 from src.application.common.command import Command, CommandHandler
 from src.application.common.interfaces.mapper import Mapper
 from src.application.common.interfaces.uow import UnitOfWork
@@ -25,11 +25,11 @@ class CreateUser(Command[dto.User]):
 
 
 class CreateUserHandler(CommandHandler[CreateUser, dto.User]):
-    def __init__(self, user_repo: UserRepo, uow: UnitOfWork, mapper: Mapper) -> None:
+    def __init__(self, user_repo: UserRepo, uow: UnitOfWork, mapper: Mapper, mediator: EventMediator) -> None:
         self._user_repo = user_repo
         self._uow = uow
         self._mapper = mapper
-        # self._mediator = mediator
+        self._mediator = mediator
 
     async def __call__(self, command: CreateUser) -> dto.User:
         user = User.create(
@@ -38,8 +38,10 @@ class CreateUserHandler(CommandHandler[CreateUser, dto.User]):
             email=UserEmail(command.email),
             password=UserPassword(command.password),
         )
+
         await self._user_repo.add_user(user)
-        # await self._mediator.publish(user.pull_events())
+        await self._mediator.publish(user.pull_events())
         await self._uow.commit()
+
         user_dto = self._mapper.load(user, dto.User)
         return user_dto

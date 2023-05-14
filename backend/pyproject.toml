@@ -6,7 +6,7 @@ authors = ["Bol4onok <95026332+MihailGulkin@users.noreply.github.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 asyncpg = "^0.27.0"
 pytest = "^7.3.1"
 didiator = "^0.3.1"
@@ -14,7 +14,6 @@ uuid6 = "^2023.5.2"
 adaptix = "^3.0.0a3"
 sqlalchemy = "^2.0.12"
 aio-pika = "^9.0.5"
-di = "^0.75.3"
 orjson = "^3.8.12"
 uvicorn = "^0.22.0"
 alembic = "^1.10.4"
@@ -22,7 +21,9 @@ blacksheep = "^1.2.14"
 pydantic = "^1.10.7"
 aiofiles = "^23.1.0"
 pre-commit = "^3.3.1"
+tomli = "^2.0.1"
 anyio = "^3.6.2"
+di = "^0.75.3"
 
 
 [build-system]

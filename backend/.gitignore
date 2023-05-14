@@ -4,6 +4,7 @@ __pycache__
 user_service
 .dev.env
 *.png
+fastapi
 *.jpg
 .pytest_cache
 .test.env
