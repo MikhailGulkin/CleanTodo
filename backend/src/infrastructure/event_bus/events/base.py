@@ -10,7 +10,7 @@ from uuid6 import uuid7
 @dataclass(frozen=True, kw_only=True)
 class IntegrationEvent:
     event_id: UUID = field(default_factory=uuid7)
-    event_timestamp: datetime = field(default_factory=datetime.utcnow)
+    event_timestamp: datetime = field(default_factory=datetime.now)
     _exchange_name: str = field(init=False)
     _routing_key: str = field(init=False)
 

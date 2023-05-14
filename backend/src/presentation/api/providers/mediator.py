@@ -1,16 +1,19 @@
+from typing import Any
+
 from di import ScopeState
 from didiator import Mediator
-from didiator.interface.utils.di_builder import DiBuilder
-from src.infrastructure.di import DiScope
+from fastapi import Depends
+from src.infrastructure.mediator import get_mediator
+
+from .di import get_di_state
 
 
 class MediatorProvider:
-    def __init__(self, mediator: Mediator, builder: DiBuilder, di_state: ScopeState) -> None:
+    def __init__(self, mediator: Mediator) -> None:
         self._mediator = mediator
-        self._builder = builder
-        self._state = di_state
 
-    async def build(self) -> Mediator:
-        async with self._builder.enter_scope(DiScope.REQUEST, state=self._state) as di_req:
-            mediator = self._mediator.bind(di_state=di_req)
-            yield mediator
+    async def build(self, di_state: ScopeState = Depends(get_di_state)) -> Mediator:
+        di_values: dict[Any, Any] = {ScopeState: di_state}
+        mediator = self._mediator.bind(di_state=di_state, di_values=di_values)
+        di_values |= {get_mediator: mediator}
+        return mediator

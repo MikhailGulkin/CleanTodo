@@ -23,9 +23,6 @@ class MessageBrokerImpl(MessageBroker):
         rq_message = self.build_message(message)
         await self._publish_message(rq_message, routing_key, exchange_name)
 
-    async def declare_exchange(self, exchange_name: str) -> None:
-        await self._channel.declare_exchange(exchange_name, aio_pika.ExchangeType.TOPIC)
-
     @staticmethod
     def build_message(message: Message) -> aio_pika.Message:
         return aio_pika.Message(
@@ -43,8 +40,7 @@ class MessageBrokerImpl(MessageBroker):
         exchange_name: str,
     ) -> None:
         exchange = await self._get_exchange(exchange_name)
-        print(routing_key, exchange_name, self._channel)
-        await exchange.publish(rq_message, routing_key="")
+        await exchange.publish(rq_message, routing_key=routing_key)
         # logger.debug("Message sent", extra={"rq_message": rq_message})
 
     async def _get_exchange(self, exchange_name: str) -> aio_pika.abc.AbstractExchange:
