@@ -22,7 +22,7 @@ from src.infrastructure.db.repositories.base import SQLAlchemyRepo
 
 
 class UserReaderImpl(SQLAlchemyRepo, UserReader):
-    # @exception_mapper
+    @exception_mapper
     async def get_user_by_id(self, user_id: UUID) -> dto.UserDTOs:
         user = await self.session.scalar(
             select(User).where(
@@ -46,6 +46,7 @@ class UserReaderImpl(SQLAlchemyRepo, UserReader):
 
         return self._mapper.load(user, dto.User)
 
+    @exception_mapper
     async def get_users_count(self, deleted: bool | Empty = Empty.UNSET) -> int:
         query = select(func.count(User.id))
 

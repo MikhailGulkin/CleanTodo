@@ -16,9 +16,8 @@ class UnitOfWorkImpl(UnitOfWork):
 
     async def commit(self) -> None:
         await self._uows[0].commit()
-        # for uow in self._uows:
-        #     if
-        #     await uow.commit()
+        for uow in self._uows:
+            await uow.commit()
 
     async def rollback(self) -> None:
         for uow in self._uows:

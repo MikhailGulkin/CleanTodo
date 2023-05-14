@@ -4,7 +4,7 @@ from di.api.providers import DependencyProviderType
 from di.api.scopes import Scope
 from di.dependent import Dependent
 from di.executors import AsyncExecutor
-from didiator import CommandMediator, Mediator, QueryMediator
+from didiator import CommandMediator, EventMediator, Mediator, QueryMediator
 from didiator.interface.utils.di_builder import DiBuilder
 from didiator.utils.di_builder import DiBuilderImpl
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
@@ -47,7 +47,7 @@ def setup_di_builder(di_builder: DiBuilder) -> None:
 
     setup_mediator_factory(di_builder, get_mediator, DiScope.REQUEST)
     setup_db_factories(di_builder)
-    # setup_event_bus_factories(di_builder)
+    setup_event_bus_factories(di_builder)
 
 
 def setup_mediator_factory(
@@ -58,7 +58,7 @@ def setup_mediator_factory(
     di_builder.bind(bind_by_type(Dependent(mediator_factory, scope=scope), Mediator))
     di_builder.bind(bind_by_type(Dependent(mediator_factory, scope=scope), QueryMediator))
     di_builder.bind(bind_by_type(Dependent(mediator_factory, scope=scope), CommandMediator))
-    # di_builder.bind(bind_by_type(Dependent(mediator_factory, scope=scope), EventMediator))
+    di_builder.bind(bind_by_type(Dependent(mediator_factory, scope=scope), EventMediator))
 
 
 def setup_db_factories(di_builder: DiBuilder) -> None:
@@ -105,5 +105,6 @@ def setup_event_bus_factories(di_builder: DiBuilder) -> None:
             aio_pika.abc.AbstractTransaction,
         )
     )
+
     di_builder.bind(bind_by_type(Dependent(MessageBrokerImpl, scope=DiScope.REQUEST), MessageBroker))
     di_builder.bind(bind_by_type(Dependent(EventBusImpl, scope=DiScope.REQUEST), EventBusImpl))

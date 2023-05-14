@@ -1,6 +1,5 @@
 import dataclasses
 from dataclasses import dataclass
-from typing import Literal, Self
 
 from src.domain.common.constants import Empty
 from src.domain.common.entities import AggregateRoot
@@ -14,7 +13,7 @@ class User(AggregateRoot):
     username: UserName
     password: UserPassword
     email: UserEmail
-    deleted: Literal[False] = dataclasses.field(default=False, kw_only=True)
+    deleted: bool = dataclasses.field(default=False, kw_only=True)
 
     @classmethod
     def create(
@@ -23,7 +22,7 @@ class User(AggregateRoot):
         username: UserName,
         password: UserPassword,
         email: UserEmail,
-    ) -> Self:  # type: ignore[valid-type]
+    ) -> "User":  # type: ignore[valid-type]
         user = User(id=user_id, username=username, password=password, email=email)
         user.record_event(
             UserCreated(
