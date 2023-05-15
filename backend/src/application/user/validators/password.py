@@ -13,10 +13,12 @@ class WrongPasswordValue(ValueError, ValidatorError):
     password: str
 
 
+@dataclass(eq=False)
 class ToShortPassword(WrongPasswordValue):
     pass
 
 
+@dataclass(eq=False)
 class WrongPasswordFormat(WrongPasswordValue):
     pass
 

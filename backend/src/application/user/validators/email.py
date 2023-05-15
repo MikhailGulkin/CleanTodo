@@ -11,6 +11,7 @@ class WrongEmailValue(ValueError, ValidatorError):
     email: str
 
 
+@dataclass(eq=False)
 class WrongEmailFormat(WrongEmailValue):
     pass
 

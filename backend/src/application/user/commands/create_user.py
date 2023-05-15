@@ -18,7 +18,7 @@ class CreateUser(Command[dto.User]):
     password: str
     email: str
 
-    def validate(self) -> None:
+    def __post_init__(self) -> None:
         validators.validate_username(self.username)
         validators.validate_email(self.email)
         validators.validate_password(self.password)

@@ -26,6 +26,10 @@ class UserNameAlreadyExists(ApplicationException):
 class UserEmailAlreadyExists(ApplicationException):
     email: str
 
+    @property
+    def message(self) -> str:
+        return f'A user with the "{self.email}" email already exists'
+
 
 @dataclass(eq=False)
 class UserIdNotExist(ApplicationException):

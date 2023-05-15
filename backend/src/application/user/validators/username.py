@@ -13,10 +13,12 @@ class WrongUsernameValue(ValueError, ValidatorError):
     username: str
 
 
+@dataclass(eq=False)
 class ToShortUsername(WrongUsernameValue):
     pass
 
 
+@dataclass(eq=False)
 class WrongUsernameFormat(WrongUsernameValue):
     pass
 
