@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from src.application.common.interfaces.mapper import Mapper
 from src.presentation.api.providers.stub import Stub
 
-from .di import StateProvider, get_di_builder, get_di_state
+from .di import StateProvider
 from .mediator import MediatorProvider
 
 
@@ -27,5 +27,5 @@ def setup_providers(
 
     state_provider = StateProvider(di_state)
 
-    app.dependency_overrides[get_di_builder] = lambda: di_builder
-    app.dependency_overrides[get_di_state] = state_provider.build
+    app.dependency_overrides[Stub(DiBuilder)] = lambda: di_builder
+    app.dependency_overrides[Stub(ScopeState)] = state_provider.build
