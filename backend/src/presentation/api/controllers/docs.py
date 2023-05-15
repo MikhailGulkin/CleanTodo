@@ -4,7 +4,9 @@ from src.application.user import dto
 from src.application.user.exceptions import (
     UserEmailAlreadyExists,
     UserIdAlreadyExists,
+    UserIdNotExist,
     UserNameAlreadyExists,
+    UserNameNotExist,
 )
 from src.application.user.validators import (
     ToShortPassword,
@@ -41,4 +43,16 @@ user_create = {
         },
     },
     "status_code": status.HTTP_201_CREATED,
+}
+user_get_by_id = {
+    "responses": {
+        status.HTTP_200_OK: {"model": dto.UserDTOs},
+        status.HTTP_404_NOT_FOUND: {"model": ErrorResult[UserIdNotExist]},
+    },
+}
+user_get_by_username = {
+    "responses": {
+        status.HTTP_200_OK: {"model": dto.User},
+        status.HTTP_404_NOT_FOUND: {"model": ErrorResult[UserNameNotExist]},
+    },
 }
