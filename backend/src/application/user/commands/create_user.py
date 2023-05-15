@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from uuid import UUID
 
 from didiator import EventMediator
 from src.application.common.command import Command, CommandHandler
@@ -8,12 +7,11 @@ from src.application.common.interfaces.uow import UnitOfWork
 from src.application.user import dto, validators
 from src.application.user.interfaces import UserRepo
 from src.domain.user.entities import User
-from src.domain.user.value_objects import UserEmail, UserId, UserName, UserPassword
+from src.domain.user.value_objects import UserEmail, UserName, UserPassword
 
 
 @dataclass(frozen=True)
 class CreateUser(Command[dto.User]):
-    user_id: UUID
     username: str
     password: str
     email: str
@@ -33,7 +31,6 @@ class CreateUserHandler(CommandHandler[CreateUser, dto.User]):
 
     async def __call__(self, command: CreateUser) -> dto.User:
         user = User.create(
-            user_id=UserId(command.user_id),
             username=UserName(command.username),
             email=UserEmail(command.email),
             password=UserPassword(command.password),

@@ -18,10 +18,10 @@ class User(AggregateRoot):
     @classmethod
     def create(
         cls,
-        user_id: UserId,
         username: UserName,
         password: UserPassword,
         email: UserEmail,
+        user_id: UserId = UserId(),
     ) -> "User":  # type: ignore[valid-type]
         user = User(id=user_id, username=username, password=password, email=email)
         user.record_event(
