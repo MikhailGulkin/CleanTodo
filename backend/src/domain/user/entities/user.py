@@ -22,7 +22,7 @@ class User(AggregateRoot):
         password: UserPassword,
         email: UserEmail,
         user_id: UserId = UserId(),
-    ) -> "User":  # type: ignore[valid-type]
+    ) -> "User":
         user = User(id=user_id, username=username, password=password, email=email)
         user.record_event(
             UserCreated(

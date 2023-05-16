@@ -26,8 +26,8 @@ async def create_user_in_database(db_session: AsyncSession):
 @pytest.fixture
 def user_data():
     return {
-        "user_id": uuid.uuid4(),
-        "username": "string",
-        "email": "string",
-        "password": "string",
+        "user_id": str(uuid.uuid4()),
+        "username": "string123",
+        "email": "string@mail.com",
+        "password": "String123",
     }

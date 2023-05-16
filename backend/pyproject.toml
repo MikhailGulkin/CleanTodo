@@ -20,7 +20,6 @@ alembic = "^1.10.4"
 pydantic = "^1.10.7"
 aiofiles = "^23.1.0"
 pre-commit = "^3.3.1"
-tomli = "^2.0.1"
 anyio = "^3.6.2"
 di = "^0.75.3"
 fastapi = "^0.95.1"
@@ -35,5 +34,16 @@ build-backend = "poetry.core.masonry.api"
 [tool.pytest.ini_options]
 markers = [
     "domain: test domain logic",
+    "api: test api controllers"
 ]
 pythonpath = "src"
+
+[tool.mypy]
+python_version = 3.11
+strict = true
+pretty = true
+disallow_any_explicit = false
+disallow_any_generics = false
+warn_unreachable = true
+show_column_numbers = true
+show_error_context = true
