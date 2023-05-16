@@ -1,4 +1,4 @@
-FROM python:3.10 as build_app
+FROM python:3.11 as build_app
 
 WORKDIR /app
 
@@ -15,8 +15,7 @@ COPY . /app
 
 
 FROM build_app as test
-ENV TEST 1
 RUN poetry install --with dev
+ENV TEST 1
 
-
-CMD python3 -m pytest -v
+CMD alembic upgrade head && pytest -v -s

@@ -1,0 +1,23 @@
+[api]
+host = "127.0.0.1"
+port = 5000
+debug = true
+
+[db]
+host = "DDDTodoTestPostgres"
+port = 5432
+database = "DDDTodoTest"
+user = "postgres"
+password = "1234"
+echo = true
+
+[event_bus]
+host = "DDDTodoTestRabbit"
+port = 5672
+login = "admin"
+password = "admin"
+
+[logging]
+level = "DEBUG"
+render_json_logs = false
+#path = "./logs/logs.log"

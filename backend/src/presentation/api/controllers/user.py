@@ -37,7 +37,7 @@ async def get_user_by_id(
     return user
 
 
-@user_router.get("/@{username}", **user_get_by_username)
+@user_router.get("/@/{username}", **user_get_by_username)
 async def get_user_by_username(
     username: str = Path(max_length=MAX_USERNAME_LENGTH),
     mediator: QueryMediator = Depends(Stub(QueryMediator)),

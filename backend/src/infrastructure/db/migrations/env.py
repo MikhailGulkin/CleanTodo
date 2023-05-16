@@ -1,4 +1,5 @@
 import asyncio
+import os
 from logging.config import fileConfig
 
 from alembic import context
@@ -14,7 +15,16 @@ from src.infrastructure.db.models import BaseModel
 config = context.config
 target_metadata = BaseModel.metadata
 
-config.set_main_option("sqlalchemy.url", load_config(DBConfig, "db").full_url)
+conf_path = "./config/"
+if os.getenv("PROD"):
+    conf_path += "prod-config.toml"
+elif os.getenv("TEST"):
+    conf_path += "test-config.toml"
+else:
+    conf_path += "config.toml"
+
+config.set_main_option("sqlalchemy.url", load_config(DBConfig, "db", path=conf_path).full_url)
+print(config.get_main_option("sqlalchemy.url"))
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
