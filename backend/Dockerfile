@@ -16,6 +16,5 @@ COPY . /app
 
 FROM build_app as test
 RUN poetry install --with dev
-ENV TEST 1
-
+ENV CONFIG_PATH='./config/test-config.toml'
 CMD alembic upgrade head && pytest -v -s

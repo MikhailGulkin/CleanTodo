@@ -21,12 +21,10 @@ from src.infrastructure.mediator import init_mediator, setup_mediator
 from src.presentation.api.config import Config, setup_di_builder_config
 from src.presentation.api.main import init_api
 
-CONFIG_PATH = "./config/test-config.toml"
 
-
-@pytest_asyncio.fixture(scope="session")
+@pytest_asyncio.fixture(scope="session", name="app")
 async def build_test_app() -> AsyncGenerator[FastAPI, Any]:
-    config = load_config(Config, path=CONFIG_PATH)
+    config = load_config(Config)
 
     di_builder = init_di_builder()
     setup_di_builder(di_builder)
@@ -48,25 +46,32 @@ async def build_test_app() -> AsyncGenerator[FastAPI, Any]:
         yield app
 
 
-@pytest_asyncio.fixture(scope="session")
-async def engine_test() -> AsyncGenerator[AsyncEngine, None]:
-    yield await build_sa_engine(load_config(DBConfig, "db", path=CONFIG_PATH)).__anext__()
+@pytest_asyncio.fixture(scope="session", name="db_engine_factory")
+async def fixture_db_engine_factory() -> AsyncGenerator[AsyncEngine, None]:
+    yield await anext(build_sa_engine(load_config(DBConfig, "db")))
 
 
-@pytest_asyncio.fixture(scope="session")
-async def db_session_test(engine_test: AsyncEngine) -> async_sessionmaker[AsyncSession]:
-    yield build_sa_session_factory(engine_test)
+@pytest_asyncio.fixture(scope="session", name="db_factory_session")
+async def fixture_db_factory_session(db_engine_factory: AsyncEngine) -> async_sessionmaker[AsyncSession]:
+    yield build_sa_session_factory(db_engine_factory)
     close_all_sessions()
 
 
+@pytest_asyncio.fixture(scope="session", name="db_session")
+async def fixture_db_session(
+    db_factory_session: async_sessionmaker[AsyncSession],
+) -> AsyncGenerator[AsyncSession, None]:
+    async with db_factory_session() as session:
+        yield session
+
+
 @pytest_asyncio.fixture(scope="function", autouse=True)
-async def clean_tables(db_session_test) -> None:
+async def clean_tables(db_session: AsyncSession) -> None:
     tables = ("users",)
-    async with db_session_test() as session:
-        for table in tables:
-            statement = text(f"""TRUNCATE TABLE {table} CASCADE;""")
-            await session.execute(statement)
-            await session.commit()
+    for table in tables:
+        statement = text(f"""TRUNCATE TABLE {table} CASCADE;""")
+        await db_session.execute(statement)
+        await db_session.commit()
 
 
 @pytest.fixture(scope="session")
@@ -77,6 +82,6 @@ def event_loop() -> Generator:
 
 
 @pytest_asyncio.fixture(scope="function")
-async def client(build_test_app: FastAPI) -> AsyncGenerator[AsyncClient, Any]:
-    async with AsyncClient(app=build_test_app, base_url="http://test") as client_:
+async def client(app: FastAPI) -> AsyncGenerator[AsyncClient, Any]:
+    async with AsyncClient(app=app, base_url="http://test") as client_:
         yield client_

@@ -18,7 +18,7 @@ services:
     hostname: DevRabbitmq
     healthcheck:
       test: rabbitmq-diagnostics -q ping
-      interval: 5s
+      interval: 30s
       timeout: 30s
       retries: 3
     ports:

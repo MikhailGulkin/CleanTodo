@@ -19,7 +19,6 @@ def read_toml(path: str) -> dict:
 def load_config(config_type: type[T], config_scope: str | None = None, path: str | None = None) -> T:
     if path is None:
         path = os.getenv("CONFIG_PATH", DEFAULT_CONFIG_PATH)
-
     data = read_toml(path)
 
     if config_scope is not None:

@@ -3,23 +3,22 @@ import uuid
 import pytest
 import pytest_asyncio
 from sqlalchemy import insert
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
+from sqlalchemy.ext.asyncio import AsyncSession
 from src.infrastructure.db.models.user import User
 
 
 @pytest_asyncio.fixture(scope="function")
-async def create_user_in_database(db_session_test: async_sessionmaker[AsyncSession]):
+async def create_user_in_database(db_session: AsyncSession):
     async def create_user_in_database_wrap(user_id: int, username: str, email: str, password: str):
-        async with db_session_test() as session:
-            await session.execute(
-                insert(User).values(
-                    id=user_id,
-                    username=username,
-                    email=email,
-                    password=password,
-                )
+        await db_session.execute(
+            insert(User).values(
+                id=user_id,
+                username=username,
+                email=email,
+                password=password,
             )
-            await session.commit()
+        )
+        await db_session.commit()
 
     return create_user_in_database_wrap
 

@@ -1,0 +1,19 @@
+services:
+  postgres:
+    container_name: DDDTodoDevTestPostgres
+    image: postgres:latest
+    restart: on-failure
+    ports:
+      - 5430:5432
+    env_file:
+      - .dev.test.env
+
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: DDDTodoDevTestRabbit
+    hostname: DevRabbitmq
+    ports:
+      - "127.0.0.1:5671:5672"
+      - "127.0.0.1:15671:15672"
+    env_file:
+      .dev.test.env
