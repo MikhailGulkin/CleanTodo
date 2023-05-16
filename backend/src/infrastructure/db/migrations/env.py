@@ -24,7 +24,6 @@ else:
     conf_path += "config.toml"
 
 config.set_main_option("sqlalchemy.url", load_config(DBConfig, "db", path=conf_path).full_url)
-print(config.get_main_option("sqlalchemy.url"))
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
