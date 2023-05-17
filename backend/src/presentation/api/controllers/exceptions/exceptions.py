@@ -14,7 +14,7 @@ from src.application.user.validators import (
     WrongPasswordFormat,
     WrongUsernameFormat,
 )
-from src.presentation.api.controllers.exceptions.utils import (
+from src.presentation.api.controllers.exceptions.exc_factories import (
     applicationErrors,
     asyncGeneric,
     generate_application_handler,
@@ -57,7 +57,7 @@ def user_invalid_params_create_handlers() -> dict[applicationErrors, asyncGeneri
         generate_application_handler(
             lambda err: ORJSONResponse(
                 ErrorResult(err.message, err).dict(),
-                status_code=status.HTTP_400_BAD_REQUEST,
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             )
         ),
     )

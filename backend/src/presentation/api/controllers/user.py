@@ -24,6 +24,8 @@ async def create_user(
     create_user_command: CreateUser,
     mediator: CommandMediator = Depends(Stub(CommandMediator)),
 ) -> dto.User:
+    create_user_command.validate()
+
     user = await mediator.send(create_user_command)
     return user
 

@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
 import didiator
@@ -7,7 +7,9 @@ CRes = TypeVar("CRes")
 
 
 class Command(didiator.Command[CRes], ABC, Generic[CRes]):
-    pass
+    @abstractmethod
+    def validate(self) -> None:
+        pass
 
 
 C = TypeVar("C", bound=Command)
