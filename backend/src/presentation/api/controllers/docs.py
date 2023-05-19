@@ -52,7 +52,7 @@ user_get_by_id = {
 }
 user_get_by_username = {
     "responses": {
-        status.HTTP_200_OK: {"model": dto.User},
+        status.HTTP_200_OK: {"model": dto.UserDTOs},
         status.HTTP_404_NOT_FOUND: {"model": ErrorResult[UserNameNotExist]},
     },
 }

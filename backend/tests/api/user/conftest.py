@@ -1,3 +1,4 @@
+import random
 import uuid
 
 import pytest
@@ -30,6 +31,16 @@ def correct_user_data():
         "username": "string123",
         "email": "string@mail.com",
         "password": "String123",
+    }
+
+
+@pytest.fixture
+def random_user_data():
+    return {
+        "user_id": str(uuid.uuid4()),
+        "username": "".join(chr(random.randint(65, 90 + 1)) for i in range(10)),
+        "email": f"{''.join(chr(random.randint(65, 90 + 1)) for i in range(10))}@mail.com",
+        "password": "".join(chr(random.randint(65, 90 + 1)) for i in range(10)),
     }
 
 

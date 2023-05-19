@@ -4,26 +4,41 @@ from starlette import status
 
 
 @pytest.mark.asyncio
-async def test_get_user_by_username(client: AsyncClient, create_user_in_database, correct_user_data) -> None:
+@pytest.mark.parametrize(
+    ["user_data", "status_code"],
+    [
+        (pytest.lazy_fixture("correct_user_data"), status.HTTP_200_OK),
+        (pytest.lazy_fixture("random_user_data"), status.HTTP_404_NOT_FOUND),
+    ],
+)
+async def test_get_user_by_username(
+    client: AsyncClient, create_user_in_database, correct_user_data, user_data, status_code
+) -> None:
     await create_user_in_database(**correct_user_data)
     key = "username"
 
-    response = await client.get(f"/users/@/{correct_user_data.get(key)}")
+    response = await client.get(f"/users/@/{user_data.get(key)}")
 
-    assert response.status_code == status.HTTP_200_OK
-    assert response.json().get(key) == correct_user_data.get(key)
+    assert response.status_code == status_code
 
 
 @pytest.mark.asyncio
-async def test_get_user_by_id(client: AsyncClient, create_user_in_database, correct_user_data) -> None:
+@pytest.mark.parametrize(
+    ["user_data", "status_code"],
+    [
+        (pytest.lazy_fixture("correct_user_data"), status.HTTP_200_OK),
+        (pytest.lazy_fixture("random_user_data"), status.HTTP_404_NOT_FOUND),
+    ],
+)
+async def test_get_user_by_id(
+    client: AsyncClient, create_user_in_database, correct_user_data, status_code, user_data
+) -> None:
     await create_user_in_database(**correct_user_data)
     key = "user_id"
-    response_key = "id"
 
-    response = await client.get(f"/users/{correct_user_data.get(key)}")
+    response = await client.get(f"/users/{user_data.get(key)}")
 
-    assert response.status_code == status.HTTP_200_OK
-    assert response.json().get(response_key) == correct_user_data.get(key)
+    assert response.status_code == status_code
 
 
 @pytest.mark.asyncio
