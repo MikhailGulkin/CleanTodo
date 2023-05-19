@@ -34,9 +34,6 @@ async def build_test_app() -> AsyncGenerator[FastAPI, Any]:
 
         async with di_builder.enter_scope(DiScope.REQUEST, state=di_state) as request_di_state:
             await di_builder.execute(declare_exchanges, DiScope.REQUEST, state=request_di_state)
-            # await di_builder.execute(declare_queue, DiScope.REQUEST, state=request_di_state)
-            # await di_builder.execute(bind_exchanges_queue, DiScope.REQUEST, state=request_di_state)
-
         mapper = await di_builder.execute(Mapper, DiScope.APP, state=di_state)
 
         app = init_api(mediator, mapper, di_builder, di_state)

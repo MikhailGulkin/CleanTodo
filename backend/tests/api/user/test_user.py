@@ -37,7 +37,7 @@ async def test_create_user(client: AsyncClient, correct_user_data) -> None:
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "invalid_user_data, status_code",
+    ["invalid_user_data", "status_code"],
     [
         (pytest.lazy_fixture("to_short_username_user_data"), status.HTTP_422_UNPROCESSABLE_ENTITY),
         (pytest.lazy_fixture("wrong_username_format_user_data"), status.HTTP_422_UNPROCESSABLE_ENTITY),
