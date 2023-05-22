@@ -1,6 +1,3 @@
-import asyncio
-import logging
-
 from src.application.common.interfaces.mapper import Mapper
 from src.infrastructure.config_loader import load_config
 from src.infrastructure.di import DiScope, init_di_builder, setup_di_builder
@@ -11,8 +8,6 @@ from src.infrastructure.mediator import init_mediator, setup_mediator
 from src.presentation.api.main import init_api, run_api
 
 from .config import Config, setup_di_builder_config
-
-logger = logging.getLogger(__name__)
 
 
 async def main() -> None:
@@ -38,5 +33,4 @@ async def main() -> None:
         await run_api(app, config.api)
 
 
-if __name__ == "__main__":
-    asyncio.run(main())
+#

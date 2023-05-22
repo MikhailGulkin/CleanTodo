@@ -21,8 +21,10 @@ from src.infrastructure.uow import build_uow
 
 def init_di_builder() -> DiBuilder:
     di_container = Container()
+
     di_executor = AsyncExecutor()
     di_scopes = [DiScope.APP, DiScope.REQUEST]
+
     di_builder = DiBuilderImpl(di_container, di_executor, di_scopes=di_scopes)
     return di_builder
 

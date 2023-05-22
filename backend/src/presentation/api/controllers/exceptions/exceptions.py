@@ -1,5 +1,11 @@
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
+from src.application.common.exceptions import (
+    CommitError,
+    MappingError,
+    RepoError,
+    RollbackError,
+)
 from src.application.user.exceptions import (
     UserEmailAlreadyExists,
     UserIdAlreadyExists,
@@ -29,6 +35,7 @@ def setup_exception_handlers(app: FastAPI) -> None:
         **user_not_exist_handlers(),
         **user_conflict_create_handlers(),
         **user_invalid_params_create_handlers(),
+        **unexpected_error_handlers(),
     }.items():
         app.add_exception_handler(exception, handler)
 
@@ -74,6 +81,18 @@ def user_conflict_create_handlers() -> dict[applicationErrors, asyncGeneric]:
             lambda err: ORJSONResponse(
                 ErrorResult(err.message, err).dict(),
                 status_code=status.HTTP_409_CONFLICT,
+            )
+        ),
+    )
+
+
+def unexpected_error_handlers() -> dict[applicationErrors, asyncGeneric]:
+    return generate_exceptions_dict(
+        [MappingError, CommitError, RepoError, RollbackError],
+        generate_application_handler(
+            lambda err: ORJSONResponse(
+                ErrorResult("Unknown server error has occurred", err).dict(),
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
         ),
     )
