@@ -1,7 +1,7 @@
 from collections.abc import Callable
 from typing import Any, Generic, TypeVar
 
-from adaptix import Loader, Mediator, Request
+from adaptix import Loader, Mediator
 from adaptix._internal.provider import LoaderProvider, LoaderRequest
 from adaptix._internal.provider.request_filtering import ExactOriginRC
 
@@ -21,9 +21,6 @@ class Converter(LoaderProvider, Generic[FromModel, ToModel]):
         self._to_cls = to_cls
         self._loader = loader
         self._request_checker = ExactOriginRC(to_cls)
-
-    def _check_request(self, mediator: Mediator[ToModel], request: Request[ToModel]) -> None:
-        self._request_checker.check_request(mediator, request)
 
     def _provide_loader(self, mediator: Mediator[ToModel], request: LoaderRequest[ToModel]) -> Loader[ToModel]:
         next_loader = mediator.provide_from_next()

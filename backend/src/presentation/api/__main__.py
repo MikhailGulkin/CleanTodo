@@ -31,6 +31,3 @@ async def main() -> None:
         app = init_api(mediator, mapper, di_builder, di_state)
 
         await run_api(app, config.api)
-
-
-#
