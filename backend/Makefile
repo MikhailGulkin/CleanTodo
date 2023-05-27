@@ -17,5 +17,9 @@ run-dev-tests:
 	CONFIG_PATH=$(CONFIG_DEV_TEST_PATH) pytest -v -s
 
 # source $(poetry env info --path)/bin/activate
+# gunicorn src.presentation.api.__main__:app --worker-class uvicorn.workers.UvicornWorker --bind 127.0.0.1:8000 --workers 12
+# uvicorn src.presentation.api.__main__:app --host 127.0.0.1 --port 8080
+# hypercorn src.presentation.api.__main__:app -b 127.0.0.1:8000 --reload
+
 run-lint:
 	pre-commit run --all-files
