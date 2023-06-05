@@ -1,6 +1,5 @@
 import os
 import tomllib
-from pathlib import Path
 from typing import TypeVar
 
 from adaptix import Retort
@@ -10,7 +9,7 @@ DEFAULT_CONFIG_PATH = "./config/config.toml"
 
 
 def read_toml(path: str) -> dict:
-    with open(Path(__file__).absolute().parent.parent.parent.joinpath(path), "rb") as f:
+    with open(path, "rb") as f:
         return tomllib.load(f)
 
 

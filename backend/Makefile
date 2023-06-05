@@ -1,6 +1,6 @@
 CONFIG_DEV_TEST_PATH='./config/dev-test-config.toml'
 up-server:
-	python3.11 -m src.__main__
+	python3.11 -m src
 upd-req:
 	poetry export --without-hashes --format=requirements.txt > requirements.txt
 up-dev:

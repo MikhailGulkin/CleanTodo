@@ -19,7 +19,7 @@ def init_api(
     di_state: ScopeState | None = None,
     debug: bool = __debug__,
 ) -> FastAPI:
-    app = FastAPI(debug=debug, title="User service", version="1.0.0", default_response_class=ORJSONResponse)
+    app = FastAPI(debug=False, title="User service", version="1.0.0", default_response_class=ORJSONResponse)
     setup_providers(app, mediator, mapper, di_builder, di_state)
     setup_middlewares(app)
     setup_controllers(app)
@@ -27,6 +27,7 @@ def init_api(
 
 
 async def run_api(app: FastAPI, api_config: APIConfig) -> None:
-    config = uvicorn.Config(app, host=api_config.host, port=api_config.port, workers=12)
+    config = uvicorn.Config(app, host=api_config.host, port=api_config.port)
     server = uvicorn.Server(config)
+
     await server.serve()
