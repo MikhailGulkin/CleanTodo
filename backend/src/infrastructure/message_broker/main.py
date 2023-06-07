@@ -27,11 +27,15 @@ async def build_rq_channel_pool(
 
 
 async def build_rq_channel(
-    rq_channel_pool: Pool[aio_pika.abc.AbstractChannel],
+    event_bus_config: EventBusConfig,
 ) -> AsyncGenerator[aio_pika.abc.AbstractChannel, None]:
-    async with rq_channel_pool.acquire() as channel:
-        yield channel
-        channel.transaction()
+    rq_connection_pool = Pool(ConnectionFactory(event_bus_config).get_connection, max_size=10)
+    async with rq_connection_pool as rq_connection_pool:
+        rq_channel_pool = Pool(ChannelFactory(rq_connection_pool).get_channel, max_size=100)
+        async with rq_channel_pool as rq_channel_pool:
+            async with rq_channel_pool.acquire() as channel:
+                yield channel
+                channel.transaction()
 
 
 async def build_rq_transaction(

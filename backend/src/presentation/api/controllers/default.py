@@ -1,17 +1,19 @@
-from fastapi import APIRouter
+from sanic import Blueprint, Request, redirect
+from sanic_ext.extensions.openapi import openapi
 from starlette import status
-from starlette.responses import RedirectResponse
 
-default_router = APIRouter(
-    prefix="",
-    tags=["default"],
-    include_in_schema=False,
+default_router = Blueprint(
+    name="default_rout",
+    url_prefix="",
 )
 
 
-@default_router.get("/")
-async def default_redirect() -> RedirectResponse:
-    return RedirectResponse(
-        "/docs",
-        status_code=status.HTTP_302_FOUND,
+@default_router.get(
+    "/",
+)
+@openapi.exclude(True)
+async def default_redirect(_: Request) -> redirect:
+    return redirect(
+        "/docs/swagger",
+        status=status.HTTP_302_FOUND,
     )

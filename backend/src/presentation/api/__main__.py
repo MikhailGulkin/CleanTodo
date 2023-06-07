@@ -1,3 +1,6 @@
+from asyncio import get_event_loop
+
+from sanic import Sanic
 from src.application.common.interfaces.mapper import Mapper
 from src.infrastructure.config_loader import load_config
 from src.infrastructure.di import DiScope, init_di_builder, setup_di_builder
@@ -5,12 +8,12 @@ from src.infrastructure.event_bus.bindings import bind_exchanges_queue
 from src.infrastructure.event_bus.exchanges import declare_exchanges
 from src.infrastructure.event_bus.queues import declare_queue
 from src.infrastructure.mediator import init_mediator, setup_mediator
-from src.presentation.api.main import init_api, run_api
+from src.presentation.api.main import conf_api, init_api
 
 from .config import Config, setup_di_builder_config
 
 
-async def main() -> None:
+async def main() -> Sanic:
     config = load_config(Config)
 
     di_builder = init_di_builder()
@@ -28,6 +31,13 @@ async def main() -> None:
 
         mapper = await di_builder.execute(Mapper, DiScope.APP, state=di_state)
 
-        app = init_api(mediator, mapper, di_builder, di_state)
+        app_ = init_api(mediator, mapper, di_builder, di_state)
+        return await conf_api(app_, api_config=config.api)
+        # await run_api(app, config.api)
 
-        await run_api(app, config.api)
+
+loop = get_event_loop()
+app = loop.run_until_complete(main())
+
+# if __name__ == '__main__':
+#     app.run()
