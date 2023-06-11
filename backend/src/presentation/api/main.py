@@ -1,6 +1,5 @@
 import uvicorn
 from di import ScopeState
-from didiator import Mediator
 from didiator.interface.utils.di_builder import DiBuilder
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
@@ -13,14 +12,13 @@ from .config import APIConfig
 
 
 def init_api(
-    mediator: Mediator,
     mapper: Mapper,
     di_builder: DiBuilder,
     di_state: ScopeState | None = None,
     debug: bool = __debug__,
 ) -> FastAPI:
     app = FastAPI(debug=False, title="User service", version="1.0.0", default_response_class=ORJSONResponse)
-    setup_providers(app, mediator, mapper, di_builder, di_state)
+    setup_providers(app, mapper, di_builder, di_state)
     setup_middlewares(app)
     setup_controllers(app)
     return app
