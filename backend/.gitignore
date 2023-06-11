@@ -1,4 +1,4 @@
-q.idea
+.idea
 __pycache__
 .env
 user_service
